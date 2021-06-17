@@ -1,0 +1,90 @@
+@import services.UserService
+@import views.form._
+@import play.api.mvc._
+@import play.api.data._
+@import be.objectify.deadbolt.scala.AuthenticatedRequest
+@import com.nappin.play.recaptcha.WidgetHelper
+
+@(userService: UserService, UploadCustomerForm: Form[_])(implicit request: AuthenticatedRequest[Any], messagesApi: MessagesApi, messages: Messages, webJarAssets: WebJarAssets, widgetHelper: WidgetHelper)
+
+@import helper._
+@import b3.horizontal.fieldConstructor
+@import com.feth.play.module.pa.views.html._
+@main(userService, messagesApi("playauthenticate.index.title")) {
+
+<!-- Page Header -->
+<div class="content bg-gray-lighter">
+    <div class="row items-push">
+        <div class="col-sm-7">
+            <h1 class="page-heading">
+                @messagesApi("playauthenticate.uploadcustomerdata.title")</small>
+            </h1>
+        </div>
+        <div class="col-sm-5 text-right hidden-xs">
+            <ol class="breadcrumb push-10-t">
+                <li>Admin</li>
+                <li><a class="link-effect" href="">Upload</a></li>
+            </ol>
+        </div>
+    </div>
+</div>
+<!-- END Page Header -->
+
+
+<!-- Page Content -->
+<div class="content content-narrow">
+    <!-- Forms Row -->
+    <div class="row">
+        <div class="col-lg-12">
+            <!-- Bootstrap Forms Validation -->
+            <h2 class="content-heading"></h2>
+            <div class="block">
+                <div class="block-header">
+                    <ul class="block-options">
+                        <li>
+                            <button type="button"><i class="si si-settings"></i></button>
+                        </li>
+                    </ul>
+                    <h3 class="block-title"></h3>
+                </div>
+                <div class="block-content block-content-narrow">
+                    <!-- jQuery Validation (.js-validation-bootstrap class is initialized in js/pages/base_forms_validation.js) -->
+                    <!-- For more examples you can check out https://github.com/jzaefferer/jquery-validation -->
+
+                    <form class="js-validation-bootstrap form-horizontal" action="@routes.Upload.doUpload" enctype = "multipart/form-data" method="post">
+                        @CSRF.formField
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="val-username">Download the template. The file format (xls, xlsx, ods)<span class="text-danger">*</span></label>
+                            <div class="col-md-7">
+                                <img style="max-width:50px;min-width:30px" src="@routes.Assets.versioned("img/various/ExcelTemplate.jpeg")"">
+                                <a href="@routes.Assets.versioned("static/SMYD.b0ecdefca720-1.xlsx")" class="btn btn-success push-5-r push-10" ><i class="fa fa-download"></i> Download</a>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="val-username">Upload the file <span class="text-danger">*</span></label>
+                            <div class="col-md-7">
+                                <input class="form-control" type="file" id="val-username" name="file" placeholder="Choose a nice username..">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="val-email">New Records in the uploaded file will get created and Existing Records in the file will be updated </label>
+                            <div class="col-md-7">
+                                <input class="form-control" type="checkbox" id="val-email" name="updateExistingRecords" placeholder="Enter your valid email..">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-8 col-md-offset-4">
+                                <button class="btn btn-success push-5-r push-10" type="submit"><i class="fa fa-upload"></i>Upload</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Forms Row -->
+</div>
+<!-- END Page Content -->
+}
+
+

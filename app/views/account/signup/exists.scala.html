@@ -1,0 +1,10 @@
+@import services.UserService
+@import play.api.mvc._
+@import be.objectify.deadbolt.scala._
+
+@(userService: UserService)(implicit request: AuthenticatedRequest[Any], messagesApi: MessagesApi, webJarAssets: WebJarAssets)
+
+@main(userService, messagesApi("playauthenticate.user.exists.title")) {
+	<h1>@messagesApi("playauthenticate.user.exists.title")</h1>
+	<p>@messagesApi("playauthenticate.user.exists.message")</p>
+}

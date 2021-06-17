@@ -1,0 +1,26 @@
+@import be.objectify.deadbolt.scala._
+
+@(playAuth: com.feth.play.module.pa.PlayAuthenticate, skipCurrent: Boolean = true)(implicit messagesApi: MessagesApi, request: AuthenticatedRequest[Any])
+
+@import com.feth.play.module.pa.views.html._
+
+<script type="text/javascript">
+function askOpenID(url) {
+	var openid = prompt("Please enter your OpenID:", "yourname.myopenid.com");
+	if(openid) {
+		window.location.href = url + "?p=" + encodeURIComponent(openid);
+	}
+}
+</script>
+
+@play.core.j.JavaHelpers.withContext(request) { jContext =>
+    @forProviders(playAuth, skipCurrent) { p =>
+        @defining(p.getKey().head.toUpper + p.getKey().tail) { label =>
+            @if(p.getKey() == "openid") {
+                <a href="javascript:void(0);" class="btn btn-link-1 btn-link-1-@p.getKey()" onclick="askOpenID('@p.getUrl()');"><i class="fa fa-@p.getKey()"></i> @label</a>
+            } else {
+                <a href="@p.getUrl()" class="btn btn-link-1 btn-link-1-@p.getKey()"><i class="fa fa-@p.getKey()"></i> @label</a>
+            }
+        }
+    }
+}

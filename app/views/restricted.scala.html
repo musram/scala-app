@@ -1,0 +1,15 @@
+@import services.UserService
+@import generated._
+@import generated.Tables._
+@import play.api.mvc._
+@import be.objectify.deadbolt.scala._
+
+@(userService: UserService, localUser: Option[UserRow] = None)(implicit request: AuthenticatedRequest[Any], messagesApi: MessagesApi, webJarAssets: WebJarAssets)
+
+@main(userService, messagesApi("playauthenticate.navigation.restricted"), "restricted") {
+
+<h1>@messagesApi("playauthenticate.navigation.restricted")</h1>
+<p>
+    @messagesApi("playauthenticate.restricted.secrets")
+</p>
+}

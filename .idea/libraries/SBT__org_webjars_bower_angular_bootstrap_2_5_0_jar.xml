@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="SBT: org.webjars.bower:angular-bootstrap:2.5.0:jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/org.webjars.bower/angular-bootstrap/jars/angular-bootstrap-2.5.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/org.webjars.bower/angular-bootstrap/srcs/angular-bootstrap-2.5.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

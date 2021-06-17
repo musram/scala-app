@@ -1,0 +1,13 @@
+<projectDescription>
+  <name>play-authenticate-usage-scala-master-version4</name>
+  <buildSpec>
+    <buildCommand>
+      <name>org.scala-ide.sdt.core.scalabuilder</name>
+    </buildCommand>
+  </buildSpec>
+  <natures>
+    <nature>org.scala-ide.sdt.core.scalanature</nature>
+    <nature>org.eclipse.jdt.core.javanature</nature>
+  </natures>
+  <linkedResources> </linkedResources>
+</projectDescription>

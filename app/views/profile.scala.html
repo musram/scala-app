@@ -1,0 +1,193 @@
+@import services.UserService
+@import services.PluggableUserService._
+@import generated._
+@import generated.Tables._
+@import play.api.mvc._
+@import be.objectify.deadbolt.scala._
+
+@(playAuth: com.feth.play.module.pa.PlayAuthenticate, localUser: UserRow)(implicit request: AuthenticatedRequest[Any], messagesApi: MessagesApi, userService: UserService, webJarAssets: WebJarAssets)
+
+@import com.feth.play.module.pa.views.html._
+@import utils.FormatUtils._
+
+@main(userService, messagesApi("playauthenticate.profile.title"),"profile") {
+
+<div class="block block-rounded block-bordered">
+    <div class="block-header bg-gray-lighter">
+        <ul class="block-options">
+            <li>
+                <button type="button"><i class="si si-settings"></i></button>
+            </li>
+        </ul>
+        <h3 class="block-title"><h1>@messagesApi("playauthenticate.profile.title")</h1>
+        </h3>
+    </div>
+    <div class="block-content">
+        <div class="row text-center">
+            <div class="col-sm-6 col-lg-3">
+                <div class="block">
+                    <div class="block-content">
+                        <p><code>Your name is</code></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3">
+                <div class="block">
+                    <div class="block-content">
+                        <p>@localUser.username</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row text-center">
+            <div class="col-sm-6 col-lg-3">
+                <div class="block">
+                    <div class="block-content">
+                        <p><code>your email address is</code></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3">
+                <div class="block">
+                    <div class="block-content">
+                        <p>@if(!localUser.email) {<em>&lt;unknown&gt;</em>.} else {
+                            @localUser.email.
+                            <i>
+                                @if(!localUser.emailValidated && localUser.email) {
+                                (<a href="@routes.Account.verifyEmail">unverified - click to verify</a>)
+                                } else {
+                                (verified)
+                                }</i>
+                            }
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            @if(localUser.firstName && localUser.lastName) {
+                <div class="row text-center">
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="block">
+                            <div class="block-content">
+                                <p><code>our first name is</code></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="block">
+                            <div class="block-content">
+                                <p>@localUser.firstName></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-center">
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="block">
+                            <div class="block-content">
+                                <p><code>your last name is</code></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="block">
+                            <div class="block-content">
+                                <p>@localUser.lastName></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        @play.core.j.JavaHelpers.withContext(request) { jContext =>
+        @currentAuth(playAuth) { auth =>
+            <div class="row text-center">
+                <div class="col-sm-6 col-lg-3">
+                    <div class="block">
+                        <div class="block-content">
+                            <p><code>@messagesApi("playauthenticate.profile.logged")</code></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-3">
+                    <div class="block">
+                        <div class="block-content">
+                            <p>@_providerIcon(auth.getProvider())</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @if(auth.expires() != -1){
+                <div class="row text-center">
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="block">
+                            <div class="block-content">
+                                <p><code>Your user ID is</code></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="block">
+                            <div class="block-content">
+                                <p>@auth.getId()</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-center">
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="block">
+                            <div class="block-content">
+                                <p><code>and expires at</code></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="block">
+                            <div class="block-content">
+                                <p>@auth.expires()</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            } else {
+                <div class="row text-center">
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="block">
+                            <div class="block-content">
+                                <p>@messagesApi("playauthenticate.profile.session_endless")</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="block">
+                            <div class="block-content">
+                                <p>@auth.getId()></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            }
+        }
+        }
+        <div class="row text-center">
+            <div class="col-sm-6 col-lg-3">
+                <div class="block">
+                    <div class="block-content">
+                        <p><a href="@routes.Account.changePassword">@messagesApi("playauthenticate.profile.password_change")</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+}
+
+
